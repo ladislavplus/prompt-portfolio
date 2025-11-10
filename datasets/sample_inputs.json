@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": 1,
+    "task": "summarize",
+    "input": "Artificial Intelligence enables machines to mimic human behavior."
+  },
+  {
+    "id": 2,
+    "task": "translate",
+    "input": "Hello world!",
+    "target_lang": "Spanish"
+  },
+  {
+    "id": 3,
+    "task": "explain",
+    "input": "What is cloud computing?"
+  }
+]
