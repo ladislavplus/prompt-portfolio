@@ -1,9 +1,18 @@
+import logging
 import os, json, argparse, pandas as pd
 from dotenv import load_dotenv
 import openai
 import matplotlib.pyplot as plt
 
 load_dotenv()
+
+# basic logging config
+logging.basicConfig(
+    filename="reports/prompt_runner.log",
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
+
 
 def run_prompt(task, user_input, target_lang=None, use_mock=True):
     if use_mock:
@@ -44,51 +53,56 @@ def main():
     # load dataset from argument
     data = pd.read_json(args.data)
 
-    results = []
-    for _, row in data.iterrows():
-        output = run_prompt(
-            task=row["task"],
-            user_input=row["input"],
-            target_lang=row.get("target_lang"),
-            use_mock=not args.api
-        )
-        score, factual = score_response(row["task"], output)
-        results.append({
-            "id": row["id"],
-            "task": row["task"],
-            "output": output,
-            "score": score,
-            "factual": factual
-        })
+    try:
+        results = []
+        for _, row in data.iterrows():
+            output = run_prompt(
+                task=row["task"],
+                user_input=row["input"],
+                target_lang=row.get("target_lang"),
+                use_mock=not args.api
+            )
+            score, factual = score_response(row["task"], output)
+            results.append({
+                "id": row["id"],
+                "task": row["task"],
+                "output": output,
+                "score": score,
+                "factual": factual
+            })
 
-    # save CSV
-    pd.DataFrame(results).to_csv(args.out, index=False)
+        # save CSV
+        pd.DataFrame(results).to_csv(args.out, index=False)
 
-    # also generate a Markdown summary
-    md_path = args.out.replace(".csv", "_eval.md")
-    with open(md_path, "w") as f:
-        f.write("# Prompt Evaluation Results\n\n")
-        f.write("| id | task | score | factual |\n")
-        f.write("|----|------|-------|--------|\n")
-        for r in results:
-            f.write(f"| {r['id']} | {r['task']} | {r['score']} | {r['factual']} |\n")
-    print(f"✅ Results saved to {args.out} and {md_path}")
+        # also generate a Markdown summary
+        md_path = args.out.replace(".csv", "_eval.md")
+        with open(md_path, "w") as f:
+            f.write("# Prompt Evaluation Results\n\n")
+            f.write("| id | task | score | factual |\n")
+            f.write("|----|------|-------|--------|\n")
+            for r in results:
+                f.write(f"| {r['id']} | {r['task']} | {r['score']} | {r['factual']} |\n")
+        print(f"✅ Results saved to {args.out} and {md_path}")
 
-    # simple bar chart of scores
-    tasks = [r["task"] for r in results]
-    scores = [r["score"] for r in results]
+        # simple bar chart of scores
+        tasks = [r["task"] for r in results]
+        scores = [r["score"] for r in results]
 
-    plt.figure(figsize=(6,4))
-    plt.bar(tasks, scores, color="skyblue")
-    plt.ylim(0,5)
-    plt.title("Prompt Evaluation Scores")
-    plt.ylabel("Score (1–5)")
-    plt.tight_layout()
+        plt.figure(figsize=(6,4))
+        plt.bar(tasks, scores, color="skyblue")
+        plt.ylim(0,5)
+        plt.title("Prompt Evaluation Scores")
+        plt.ylabel("Score (1–5)")
+        plt.tight_layout()
 
-    png_path = args.out.replace(".csv", "_eval.png")
-    plt.savefig(png_path)
-    plt.close()
-    print(f"✅ Visualization saved to {png_path}")
+        png_path = args.out.replace(".csv", "_eval.png")
+        plt.savefig(png_path)
+        plt.close()
+        print(f"✅ Visualization saved to {png_path}")
+        logging.info(f"Processed {len(results)} prompts successfully.")
+    except Exception as e:
+        logging.error(f"Error during run: {e}", exc_info=True)
+        print(f"❌ Error during run: {e}")
 
 if __name__ == "__main__":
     main()
