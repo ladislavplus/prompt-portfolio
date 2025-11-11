@@ -1,6 +1,7 @@
 import os, json, argparse, pandas as pd
 from dotenv import load_dotenv
 import openai
+import matplotlib.pyplot as plt
 
 load_dotenv()
 
@@ -69,6 +70,22 @@ def main():
         for r in results:
             f.write(f"| {r['id']} | {r['task']} | {r['score']} | {r['factual']} |\n")
     print(f"✅ Results saved to {args.out} and {md_path}")
+
+    # simple bar chart of scores
+    tasks = [r["task"] for r in results]
+    scores = [r["score"] for r in results]
+
+    plt.figure(figsize=(6,4))
+    plt.bar(tasks, scores, color="skyblue")
+    plt.ylim(0,5)
+    plt.title("Prompt Evaluation Scores")
+    plt.ylabel("Score (1–5)")
+    plt.tight_layout()
+
+    png_path = args.out.replace(".csv", "_eval.png")
+    plt.savefig(png_path)
+    plt.close()
+    print(f"✅ Visualization saved to {png_path}")
 
 if __name__ == "__main__":
     main()
