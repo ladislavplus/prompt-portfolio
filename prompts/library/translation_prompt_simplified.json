@@ -1,0 +1,7 @@
+{
+  "id": "translation_en_to_fr_simplified",
+  "category": "translation",
+  "description": "Translate English text into simple, conversational French suitable for learners.",
+  "template": "Translate this English text into simple everyday French:\n\n{{input}}",
+  "expected_quality": "clear and easy-to-understand translation"
+}
