@@ -38,9 +38,12 @@ def main():
     parser = argparse.ArgumentParser(description="Prompt Playground Runner")
     parser.add_argument("--api", action="store_true", help="Use real API instead of mock.")
     parser.add_argument("--out", default="reports/prompt_runner_results.csv", help="Output CSV path.")
+    parser.add_argument("--data", default="datasets/sample_inputs.json", help="Path to dataset JSON")
     args = parser.parse_args()
+    
+    # load dataset from argument
+    data = pd.read_json(args.data)
 
-    data = pd.read_json("datasets/sample_inputs.json")
     results = []
     for _, row in data.iterrows():
         output = run_prompt(
