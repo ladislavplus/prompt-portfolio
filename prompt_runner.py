@@ -22,6 +22,17 @@ def run_prompt(task, user_input, target_lang=None, use_mock=True):
     )
     return r.choices[0].message.content.strip()
 
+def score_response(task, output):
+    """
+    Simple evaluation function.
+    Returns score 1–5 and boolean factual flag.
+    """
+    # placeholder logic, refine later
+    score_map = {"summarize":5, "translate":5, "explain":4}
+    score = score_map.get(task, 3)
+    factual = True if score >= 4 else False
+    return score, factual
+
 def main():
     parser = argparse.ArgumentParser(description="Prompt Playground Runner")
     parser.add_argument("--api", action="store_true", help="Use real API instead of mock.")
@@ -37,9 +48,27 @@ def main():
             target_lang=row.get("target_lang"),
             use_mock=not args.api
         )
-        results.append({"id": row["id"], "task": row["task"], "output": output})
+        score, factual = score_response(row["task"], output)
+        results.append({
+            "id": row["id"],
+            "task": row["task"],
+            "output": output,
+            "score": score,
+            "factual": factual
+        })
+
+    # save CSV
     pd.DataFrame(results).to_csv(args.out, index=False)
-    print(f"✅ Results saved to {args.out}")
+
+    # also generate a Markdown summary
+    md_path = args.out.replace(".csv", "_eval.md")
+    with open(md_path, "w") as f:
+        f.write("# Prompt Evaluation Results\n\n")
+        f.write("| id | task | score | factual |\n")
+        f.write("|----|------|-------|--------|\n")
+        for r in results:
+            f.write(f"| {r['id']} | {r['task']} | {r['score']} | {r['factual']} |\n")
+    print(f"✅ Results saved to {args.out} and {md_path}")
 
 if __name__ == "__main__":
     main()
