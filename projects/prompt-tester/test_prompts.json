@@ -1,0 +1,4 @@
+[
+  {"id": "t1", "prompt": "Summarize this paragraph", "expected": "short summary"},
+  {"id": "t2", "prompt": "Translate 'Good morning' to French", "expected": "Bonjour"}
+]
