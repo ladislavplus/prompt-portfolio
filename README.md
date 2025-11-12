@@ -28,3 +28,21 @@ This repository, "prompt-portfolio," is a Python-based toolkit for managing, tes
        * run_all.py: A convenience script to run multiple test suites at once.
    4. Analyze Results: The output is saved in the reports and results folders, allowing you to analyze which prompts are most effective and
       why.
+
+
+---
+
+## 💬 Project 4 — Prompt-Lab Web App (`v0.4.0`)
+
+An interactive Streamlit dashboard for testing, evaluating, and visualizing prompts in real time.
+
+### ✨ Features
+- Model & task selection (Summarize, Translate, Explain, Paraphrase)
+- Live prompt execution (OpenAI API + offline mock)
+- Automatic CSV logging to `/reports/prompt_lab_runs.csv`
+- Cached history with refresh and sorting
+- Performance chart by model & task
+
+### 🚀 Run Locally
+```bash
+streamlit run app.py
