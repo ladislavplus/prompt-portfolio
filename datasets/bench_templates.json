@@ -1,0 +1,54 @@
+{
+  "tasks": [
+    {
+      "id": "summarize",
+      "title": "Summarize",
+      "description": "Summarize a given paragraph at varying lengths and styles.",
+      "templates": [
+        "Summarize the following text in {length} sentences for a {audience} audience:\n\n\"{source}\"",
+        "Write a {length}-sentence summary of the text below, focusing on {focus}:\n\n{source}"
+      ],
+      "vars": {
+        "length": ["1", "2", "3"],
+        "audience": ["general", "technical", "executive"],
+        "focus": ["key findings", "main argument", "practical implications"]
+      }
+    },
+    {
+      "id": "translate",
+      "title": "Translate",
+      "description": "Translate text into another language with register instructions.",
+      "templates": [
+        "Translate the following passage into {lang} using a {register} register:\n\n{source}"
+      ],
+      "vars": {
+        "lang": ["French", "Spanish", "German"],
+        "register": ["formal", "casual", "technical"]
+      }
+    },
+    {
+      "id": "explain",
+      "title": "Explain",
+      "description": "Explain a technical concept at different depths.",
+      "templates": [
+        "Explain {concept} in a way a {audience} would understand. Keep it {depth}."
+      ],
+      "vars": {
+        "concept": ["blockchain consensus", "gradient descent", "HTTP cookies"],
+        "audience": ["high-school student", "new developer", "non-technical manager"],
+        "depth": ["very brief (<=2 sentences)", "concise (3-4 sentences)", "detailed (>=6 sentences)"]
+      }
+    },
+    {
+      "id": "extract",
+      "title": "Extract",
+      "description": "Structured extraction from a text (entities or Q/A).",
+      "templates": [
+        "Read the passage and extract the following fields as JSON: {fields}.\n\nPassage:\n{source}"
+      ],
+      "vars": {
+        "fields": ["name, date, location", "product, price, warranty", "issue_summary, steps_taken"]
+      }
+    }
+  ]
+}
