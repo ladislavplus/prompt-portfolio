@@ -32,6 +32,17 @@ This repository, "prompt-portfolio," is a Python-based toolkit for managing, tes
 
 ---
 
+## 📁 Project Index
+
+| Project | Description | Status |
+|----------|--------------|--------|
+| **Prompt Playground** | Basic prompt testing & evaluation workflow | ✅ Complete |
+| **Prompt Tester CLI** | Automated prompt scoring & reporting | ✅ Complete |
+| **Prompt Benchmark Suite** | Model comparison across tasks | ✅ Complete |
+| **Prompt-Lab Web App** | Interactive Streamlit prompt tester | ✅ Complete |
+
+---
+
 ## 💬 Project 4 — Prompt-Lab Web App (`v0.4.0`)
 
 An interactive Streamlit dashboard for testing, evaluating, and visualizing prompts in real time.
