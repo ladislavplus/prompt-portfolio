@@ -1,5 +1,33 @@
-[
-  { "id": 1, "input": "Hello, how are you?", "expected": "Bonjour, comment allez-vous ?" },
-  { "id": 2, "input": "The meeting starts at noon.", "expected": "La réunion commence à midi." },
-  { "id": 3, "input": "I love learning new languages.", "expected": "J'aime apprendre de nouvelles langues." }
-]
+{
+    "name": "translation_en_to_fr",
+    "description": "A set of test cases for evaluating English to French translation prompts.",
+    "test_cases": [
+        {
+            "id": "en_fr_001",
+            "input": {
+                "source_language": "English",
+                "target_language": "French",
+                "text_to_translate": "Hello, how are you?"
+            },
+            "expected_output": "Bonjour, comment ça va ?"
+        },
+        {
+            "id": "en_fr_002",
+            "input": {
+                "source_language": "English",
+                "target_language": "French",
+                "text_to_translate": "I would like to order a coffee."
+            },
+            "expected_output": "Je voudrais commander un café."
+        },
+        {
+            "id": "en_fr_003",
+            "input": {
+                "source_language": "English",
+                "target_language": "French",
+                "text_to_translate": "The quick brown fox jumps over the lazy dog."
+            },
+            "expected_output": "Le rapide renard brun saute par-dessus le chien paresseux."
+        }
+    ]
+}

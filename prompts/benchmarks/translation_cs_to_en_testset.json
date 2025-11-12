@@ -1,0 +1,33 @@
+{
+    "name": "translation_cs_to_en",
+    "description": "A set of test cases for evaluating Czech to English translation prompts.",
+    "test_cases": [
+        {
+            "id": "cs_en_001",
+            "input": {
+                "source_language": "Czech",
+                "target_language": "English",
+                "text_to_translate": "Ahoj, jak se máš?"
+            },
+            "expected_output": "Hello, how are you?"
+        },
+        {
+            "id": "cs_en_002",
+            "input": {
+                "source_language": "Czech",
+                "target_language": "English",
+                "text_to_translate": "Chtěl bych si objednat kávu."
+            },
+            "expected_output": "I would like to order a coffee."
+        },
+        {
+            "id": "cs_en_003",
+            "input": {
+                "source_language": "Czech",
+                "target_language": "English",
+                "text_to_translate": "Rychlá hnědá liška skáče přes líného psa."
+            },
+            "expected_output": "The quick brown fox jumps over the lazy dog."
+        }
+    ]
+}

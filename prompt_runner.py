@@ -1,7 +1,7 @@
 import logging
 import os, json, argparse, pandas as pd
 from dotenv import load_dotenv
-import openai
+import litellm
 import matplotlib.pyplot as plt
 
 load_dotenv()
@@ -13,24 +13,28 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s"
 )
 
+def load_models_config(path="models_config.json"):
+    """Loads the models configuration file."""
+    with open(path, 'r') as f:
+        return json.load(f)
 
-def run_prompt(task, user_input, target_lang=None, use_mock=True):
-    if use_mock:
-        mocks = {
-            "summarize": "AI lets machines act like humans.",
-            "translate": "¡Hola mundo!",
-            "explain": "Cloud computing uses remote servers."
-        }
-        return mocks.get(task, "No mock result.")
-    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def run_prompt(task, user_input, model_name, target_lang=None):
+    """
+    Runs a prompt using the specified model via litellm.
+    """
     prompt = f"Task: {task}\nInput: {user_input}"
     if target_lang:
         prompt += f"\nTarget language: {target_lang}"
-    r = client.chat.completions.create(
-        model=os.getenv("MODEL_NAME", "gpt-4o-mini"),
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return r.choices[0].message.content.strip()
+    
+    try:
+        r = litellm.completion(
+            model=model_name,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return r.choices[0].message.content.strip()
+    except Exception as e:
+        logging.error(f"Error calling litellm for model {model_name}: {e}", exc_info=True)
+        return f"Error: Could not get response from model {model_name}."
 
 def score_response(task, output):
     """
@@ -45,11 +49,28 @@ def score_response(task, output):
 
 def main():
     parser = argparse.ArgumentParser(description="Prompt Playground Runner")
-    parser.add_argument("--api", action="store_true", help="Use real API instead of mock.")
     parser.add_argument("--out", default="reports/prompt_runner_results.csv", help="Output CSV path.")
     parser.add_argument("--data", default="datasets/sample_inputs.json", help="Path to dataset JSON")
+    parser.add_argument("--model-alias", help="Alias of the model to use from models_config.json")
     args = parser.parse_args()
+
+    # Load models config
+    models_config = load_models_config()
     
+    # Determine model to use
+    if args.model_alias:
+        model_alias = args.model_alias
+        if model_alias not in models_config["models"]:
+            print(f"❌ Error: Model alias '{model_alias}' not found in models_config.json.")
+            return
+    else:
+        model_alias = models_config["default_model"]
+
+    model_info = models_config["models"][model_alias]
+    model_name = model_info["litellm_string"]
+    
+    print(f"🚀 Running prompts with model: {model_alias} ({model_name})")
+
     # load dataset from argument
     data = pd.read_json(args.data)
 
@@ -59,8 +80,8 @@ def main():
             output = run_prompt(
                 task=row["task"],
                 user_input=row["input"],
-                target_lang=row.get("target_lang"),
-                use_mock=not args.api
+                model_name=model_name,
+                target_lang=row.get("target_lang")
             )
             score, factual = score_response(row["task"], output)
             results.append({
@@ -68,7 +89,8 @@ def main():
                 "task": row["task"],
                 "output": output,
                 "score": score,
-                "factual": factual
+                "factual": factual,
+                "model_alias": model_alias
             })
 
         # save CSV
@@ -78,6 +100,7 @@ def main():
         md_path = args.out.replace(".csv", "_eval.md")
         with open(md_path, "w") as f:
             f.write("# Prompt Evaluation Results\n\n")
+            f.write(f"**Model Used:** {model_alias} (`{model_name}`)\n\n")
             f.write("| id | task | score | factual |\n")
             f.write("|----|------|-------|--------|\n")
             for r in results:
@@ -91,7 +114,7 @@ def main():
         plt.figure(figsize=(6,4))
         plt.bar(tasks, scores, color="skyblue")
         plt.ylim(0,5)
-        plt.title("Prompt Evaluation Scores")
+        plt.title(f"Prompt Scores (Model: {model_alias})")
         plt.ylabel("Score (1–5)")
         plt.tight_layout()
 
@@ -99,7 +122,7 @@ def main():
         plt.savefig(png_path)
         plt.close()
         print(f"✅ Visualization saved to {png_path}")
-        logging.info(f"Processed {len(results)} prompts successfully.")
+        logging.info(f"Processed {len(results)} prompts successfully with model {model_alias}.")
     except Exception as e:
         logging.error(f"Error during run: {e}", exc_info=True)
         print(f"❌ Error during run: {e}")

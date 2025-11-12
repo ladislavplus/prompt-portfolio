@@ -1,0 +1,20 @@
+{
+    "name": "summarization_test",
+    "description": "A set of test cases for evaluating summarization prompts.",
+    "test_cases": [
+        {
+            "id": "summary_001",
+            "input": {
+                "text_to_summarize": "The James Webb Space Telescope (JWST) is a large, infrared-optimized space telescope. It is the successor to the Hubble Space Telescope and is designed to see the first stars and galaxies that formed in the early universe. The telescope was launched on December 25, 2021, and began collecting data in July 2022. Its primary mirror is composed of 18 hexagonal segments made of gold-plated beryllium, which combine to create a 6.5-meter diameter mirror."
+            },
+            "expected_output": "The James Webb Space Telescope (JWST), a large infrared space telescope launched in December 2021, is the successor to Hubble and is designed to observe the early universe's first stars and galaxies."
+        },
+        {
+            "id": "summary_002",
+            "input": {
+                "text_to_summarize": "Artificial intelligence (AI) is a wide-ranging branch of computer science concerned with building smart machines capable of performing tasks that typically require human intelligence. AI is an interdisciplinary science with multiple approaches, but advancements in machine learning and deep learning are creating a paradigm shift in virtually every sector of the tech industry. Some of the most common applications of AI include natural language processing, computer vision, and speech recognition."
+            },
+            "expected_output": "Artificial intelligence (AI) is a branch of computer science focused on creating smart machines that can perform human-like tasks, with machine learning and deep learning driving significant advancements across the tech industry in areas like natural language processing and computer vision."
+        }
+    ]
+}

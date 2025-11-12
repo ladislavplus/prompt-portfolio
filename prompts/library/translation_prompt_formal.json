@@ -1,7 +1,5 @@
 {
-  "id": "translation_en_to_fr_formal",
-  "category": "translation",
-  "description": "Translate English text into formal French with professional tone.",
-  "template": "Translate the following English sentence into formal French:\n\n{{input}}",
-  "expected_quality": "formal, precise, and grammatically refined translation"
+    "name": "translation_prompt_formal",
+    "description": "A prompt that requests a formal translation, suitable for business or official communication.",
+    "prompt_text": "Please provide a formal translation of the following text from {source_language} to {target_language}. The tone should be professional and respectful.\n\nText to translate: \"{text_to_translate}\""
 }

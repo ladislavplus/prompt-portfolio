@@ -1,0 +1,5 @@
+{
+    "name": "summarization_prompt_tldr",
+    "description": "A prompt that requests a single-sentence summary (TL;DR).",
+    "prompt_text": "Provide a one-sentence summary (a TL;DR) of the following text:\n\n{text_to_summarize}"
+}

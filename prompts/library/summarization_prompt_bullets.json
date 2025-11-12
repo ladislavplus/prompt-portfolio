@@ -1,0 +1,5 @@
+{
+    "name": "summarization_prompt_bullets",
+    "description": "A prompt that requests a summary in the form of bullet points.",
+    "prompt_text": "Summarize the following text into a list of key bullet points:\n\n{text_to_summarize}"
+}

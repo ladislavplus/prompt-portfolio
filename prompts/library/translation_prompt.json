@@ -1,7 +1,5 @@
 {
-  "id": "translation_en_to_fr",
-  "category": "translation",
-  "description": "Translate English text into French accurately and fluently.",
-  "template": "Translate the following English sentence into French:\n\n{{input}}",
-  "expected_quality": "accurate and natural translation"
+    "name": "translation_prompt",
+    "description": "A standard prompt for translating text from a source language to a target language.",
+    "prompt_text": "Translate the following text from {source_language} to {target_language}:\n\n{text_to_translate}"
 }

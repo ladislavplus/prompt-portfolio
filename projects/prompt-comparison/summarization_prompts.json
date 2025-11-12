@@ -1,0 +1,8 @@
+{
+    "name": "summarization_comparison",
+    "prompts": [
+        "prompts/library/summarization_prompt_standard.json",
+        "prompts/library/summarization_prompt_bullets.json",
+        "prompts/library/summarization_prompt_tldr.json"
+    ]
+}

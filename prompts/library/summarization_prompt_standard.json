@@ -1,0 +1,5 @@
+{
+    "name": "summarization_prompt_standard",
+    "description": "A standard prompt to summarize a given text.",
+    "prompt_text": "Please summarize the following text:\n\n{text_to_summarize}"
+}

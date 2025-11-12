@@ -1,0 +1,5 @@
+pandas
+matplotlib
+python-dotenv
+openai
+litellm

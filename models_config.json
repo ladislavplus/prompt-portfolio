@@ -1,0 +1,124 @@
+{
+    "default_model": "gpt120b",
+    "models": {
+      "gemini-pro": {
+        "litellm_string": "gemini/gemini-2.5-pro",
+        "provider": "Google",
+        "description": "Most capable Gemini model",
+        "context_length": 1000000,
+        "use_case": "Complex reasoning and long context"
+      },
+      "gemini-flash": {
+        "litellm_string": "gemini/gemini-2.5-flash",
+        "provider": "Google",
+        "description": "Fast and efficient Gemini model",
+        "context_length": 1000000,
+        "use_case": "Quick responses and general tasks"
+      },
+      "gemini-flash-lite": {
+        "litellm_string": "gemini/gemini-2.5-flash-lite",
+        "provider": "Google",
+        "description": "Lightweight Gemini model",
+        "context_length": 1000000,
+        "use_case": "Simple, fast queries"
+      },
+      "gpt120b": {
+        "litellm_string": "groq/openai/gpt-oss-120b",
+        "provider": "Groq",
+        "description": "Large open-source model on Groq",
+        "context_length": 32768,
+        "use_case": "High-quality responses with speed"
+      },
+      "gpt20b": {
+        "litellm_string": "groq/openai/gpt-oss-20b",
+        "provider": "Groq",
+        "description": "Smaller open-source model on Groq",
+        "context_length": 32768,
+        "use_case": "Fast, efficient responses"
+      },
+      "compound": {
+        "litellm_string": "groq/groq/compound",
+        "provider": "Groq",
+        "description": "Groq's compound model",
+        "context_length": 131072,
+        "use_case": "Quick tasks"
+      },
+      "compound_mini": {
+        "litellm_string": "groq/groq/compound-mini",
+        "provider": "Groq",
+        "description": "Groq's compound mini model",
+        "context_length": 8192,
+        "use_case": "Quick tasks"
+      },
+      "llama33versatile": {
+        "litellm_string": "groq/llama-3.3-70b-versatile",
+        "provider": "Groq",
+        "description": "Versatile Llama 3.3 model",
+        "context_length": 32768,
+        "use_case": "General-purpose conversations"
+      },
+      "llama31instant": {
+        "litellm_string": "groq/llama-3.1-8b-instant",
+        "provider": "Groq",
+        "description": "Ultra-fast Llama model",
+        "context_length": 131072,
+        "use_case": "Instant responses"
+      },
+      "llama4maverick": {
+        "litellm_string": "groq/meta-llama/llama-4-maverick-17b-128e-instruct",
+        "provider": "meta-llama",
+        "description": "17B-parameter multilingual instruction model with 128K context and image understanding",
+        "context_length": 131072,
+        "use_case": "Ideal for chatbots, document Q&A, and multimodal analysis"
+      },
+      "llama4scout": {
+        "litellm_string": "groq/meta-llama/llama-4-scout-17b-16e-instruct",
+        "provider": "meta-llama",
+        "description": "17-billion-parameter multimodal instruction model (16-expert Mixture-of-Experts) for text + image input",
+        "context_length": 131072,
+        "use_case": "Ideal for visual-aware chatbots, code generation, and long-document analysis"
+      },
+      "kimi": {
+        "litellm_string": "groq/moonshotai/kimi-k2-instruct-0905",
+        "provider": "MoonshotAI",
+        "description": "Kimi latest model",
+        "context_length": 262144,
+        "use_case": "Tool use, coding, autonomous problem solving across domains."
+      },
+      "qwen": {
+        "litellm_string": "groq/qwen/qwen3-32b",
+        "provider": "Qwen",
+        "description": "Qwen 3-32B is part of Alibaba Cloud’s latest generation of LLMs in the Qwen series.",
+        "context_length": 131072,
+        "use_case": "Reasoning, instruction-following, agent capabilities, and multilingual support."
+      },
+      "magmedium1": {
+        "litellm_string": "mistral/magistral-medium-2506",
+        "provider": "Mistral",
+        "description": "Mistral medium-sized model",
+        "context_length": 32768,
+        "use_case": "Balanced performance"
+      },
+      "medium31": {
+        "litellm_string": "mistral/mistral-medium-2508",
+        "provider": "Mistral",
+        "description": "Latest Mistral medium model",
+        "context_length": 32768,
+        "use_case": "General tasks"
+      },
+      "magsmall": {
+        "litellm_string": "mistral/magistral-small-2506",
+        "provider": "Mistral",
+        "description": "Small, efficient Mistral model",
+        "context_length": 32768,
+        "use_case": "Quick, simple queries"
+      },
+      "opennemo": {
+        "litellm_string": "mistral/open-mistral-nemo",
+        "provider": "Mistral",
+        "description": "Open Mistral Nemo model",
+        "context_length": 32768,
+        "use_case": "Open-source tasks"
+      }
+    }
+  }

@@ -1,7 +1,5 @@
 {
-  "id": "translation_en_to_fr_simplified",
-  "category": "translation",
-  "description": "Translate English text into simple, conversational French suitable for learners.",
-  "template": "Translate this English text into simple everyday French:\n\n{{input}}",
-  "expected_quality": "clear and easy-to-understand translation"
+    "name": "translation_prompt_simplified",
+    "description": "A prompt that requests a simplified translation, using clear and simple language.",
+    "prompt_text": "Translate this from {source_language} to {target_language} in a simple and easy-to-understand way:\n\n{text_to_translate}"
 }

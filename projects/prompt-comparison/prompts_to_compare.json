@@ -1,5 +1,8 @@
-[
-    "prompts/library/translation_prompt.json",
-    "prompts/library/translation_prompt_formal.json",
-    "prompts/library/translation_prompt_simplified.json"
-]
+{
+    "name": "translation_comparison",
+    "prompts": [
+        "prompts/library/translation_prompt.json",
+        "prompts/library/translation_prompt_formal.json",
+        "prompts/library/translation_prompt_simplified.json"
+    ]
+}
