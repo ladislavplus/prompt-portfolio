@@ -3,12 +3,16 @@ import streamlit as st
 from dotenv import load_dotenv
 import os
 import time
-import random
+import pandas as pd
+from datetime import datetime
+import matplotlib.pyplot as plt
+
+from prompt_toolkit.models import get_model_name, run_prompt as run_api_prompt
+from prompt_toolkit.utils import load_json
 
 # --- Load environment ---
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-DEFAULT_MODEL = os.getenv("MODEL_NAME", "gpt-4-turbo")
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Prompt Playground", page_icon="💬", layout="wide")
@@ -18,10 +22,12 @@ st.caption("Interactive prompt testing dashboard for OpenAI models")
 
 # --- Sidebar Configuration ---
 st.sidebar.header("Configuration")
-model_choice = st.sidebar.selectbox(
+models_config = load_json("config/models_config.json")
+model_aliases = list(models_config["models"].keys())
+model_alias_choice = st.sidebar.selectbox(
     "Choose Model",
-    ["gpt-4-turbo", "gpt-4o-mini", "gpt-3.5-turbo"],
-    index=0
+    model_aliases,
+    index=model_aliases.index(models_config.get("default_model", model_aliases[0]))
 )
 
 task_choice = st.sidebar.selectbox(
@@ -30,39 +36,29 @@ task_choice = st.sidebar.selectbox(
     index=0
 )
 
-use_api = st.sidebar.checkbox("Use OpenAI API", value=False)
-st.sidebar.write(f"**Active Model:** `{model_choice}`")
+use_api = st.sidebar.checkbox("Use OpenAI API", value=True)
+st.sidebar.write(f"**Active Model:** `{model_alias_choice}`")
 st.sidebar.write(f"**Mode:** {'API' if use_api else 'Mock'}")
 
 # --- Helper Function ---
-def run_prompt(prompt: str, model: str = DEFAULT_MODEL, use_api: bool = False):
+def run_prompt(prompt: str, model_alias: str, use_api: bool = False):
     """
-    Run prompt through OpenAI API (if enabled) or mock fallback.
+    Run prompt through API (if enabled) or mock fallback.
     Returns (response_text, mode)
     """
-    try:
-        if use_api:
-            from openai import OpenAI
-            client = OpenAI(api_key=OPENAI_API_KEY)
+    if use_api:
+        model_name = get_model_name(model_alias)
+        response = run_api_prompt(prompt, model_name)
+        return response, "api"
 
-            response = client.chat.completions.create(
-                model=model,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.7
-            )
-            return response.choices[0].message.content.strip(), "api"
-
-        # --- Mock fallback ---
-        mock_responses = {
-            "Summarize": "Here’s a short summary of your text (mock).",
-            "Translate": "Voici la traduction simulée de votre texte (mock).",
-            "Explain": "This is a simplified explanation of your content (mock).",
-            "Paraphrase": "Here’s a paraphrased version of your text (mock)."
-        }
-        return mock_responses.get(task_choice, "Mock response."), "mock"
-
-    except Exception as e:
-        return f"[Error] {e}", "error"
+    # --- Mock fallback ---
+    mock_responses = {
+        "Summarize": "Here’s a short summary of your text (mock).",
+        "Translate": "Voici la traduction simulée de votre texte (mock).",
+        "Explain": "This is a simplified explanation of your content (mock).",
+        "Paraphrase": "Here’s a paraphrased version of your text (mock)."
+    }
+    return mock_responses.get(task_choice, "Mock response."), "mock"
 
 # --- Main Area ---
 st.subheader("Enter Your Prompt")
@@ -74,24 +70,21 @@ if st.button("🚀 Run Prompt"):
     else:
         with st.spinner("Running prompt..."):
             start = time.time()
-            output, mode = run_prompt(user_input, model_choice, use_api)
+            output, mode = run_prompt(user_input, model_alias_choice, use_api)
             elapsed = round(time.time() - start, 2)
 
-        st.info(f"**Model:** {model_choice} | **Task:** {task_choice}")
+        st.info(f"**Model:** {model_alias_choice} | **Task:** {task_choice}")
         st.success(f"Response generated ({mode.upper()} mode, {elapsed}s)")
         st.text_area("🧠 Model Output", value=output, height=200)
 
         # Save run to reports
-        reports_dir = "reports"
+        reports_dir = "output/summaries"
         os.makedirs(reports_dir, exist_ok=True)
         out_path = os.path.join(reports_dir, "prompt_lab_runs.csv")
 
-        import pandas as pd
-        from datetime import datetime
-
         run_data = pd.DataFrame([{
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "model": model_choice,
+            "model": model_alias_choice,
             "task": task_choice,
             "prompt": user_input,
             "output": output,
@@ -110,15 +103,13 @@ if st.button("🚀 Run Prompt"):
 st.divider()
 st.subheader("📜 Run History")
 
-import pandas as pd
-
 @st.cache_data
-def load_history(path="reports/prompt_lab_runs.csv"):
+def load_history(path="output/summaries/prompt_lab_runs.csv"):
     if os.path.exists(path):
         return pd.read_csv(path)
     return pd.DataFrame(columns=["timestamp", "model", "task", "prompt", "output", "mode", "elapsed_s"])
 
-history_path = "reports/prompt_lab_runs.csv"
+history_path = "output/summaries/prompt_lab_runs.csv"
 df = load_history(history_path)
 
 col1, col2 = st.columns([1, 4])
@@ -135,9 +126,6 @@ else:
 
     with st.expander("🔍 View Full History Table"):
         st.dataframe(df, use_container_width=True)
-
-
-import matplotlib.pyplot as plt
 
 st.divider()
 st.subheader("📊 Performance Overview")

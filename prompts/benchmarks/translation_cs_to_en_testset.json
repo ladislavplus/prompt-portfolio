@@ -16,18 +16,18 @@
             "input": {
                 "source_language": "Czech",
                 "target_language": "English",
-                "text_to_translate": "Chtěl bych si objednat kávu."
+                "text_to_translate": "Venku se začíná stmívat."
             },
-            "expected_output": "I would like to order a coffee."
+            "expected_output": "It's starting to get dark outside."
         },
         {
             "id": "cs_en_003",
             "input": {
                 "source_language": "Czech",
                 "target_language": "English",
-                "text_to_translate": "Rychlá hnědá liška skáče přes líného psa."
+                "text_to_translate": "Zabalíme to ve čtyři."
             },
-            "expected_output": "The quick brown fox jumps over the lazy dog."
+            "expected_output": "We'll wrap it up at four."
         }
     ]
 }

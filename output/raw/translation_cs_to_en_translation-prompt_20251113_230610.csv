@@ -1,0 +1,4 @@
+id,input,expected,output,similarity,avg_similarity
+cs_en_001,"{""source_language"": ""Czech"", ""target_language"": ""English"", ""text_to_translate"": ""Ahoj, jak se m\u00e1\u0161?""}","Hello, how are you?","""Hi, how are you?""",0.811,0.757
+cs_en_002,"{""source_language"": ""Czech"", ""target_language"": ""English"", ""text_to_translate"": ""Venku se za\u010d\u00edn\u00e1 stm\u00edvat.""}",It's starting to get dark outside.,"Outside, it’s starting to get dark.",0.725,0.757
+cs_en_003,"{""source_language"": ""Czech"", ""target_language"": ""English"", ""text_to_translate"": ""Zabal\u00edme to ve \u010dty\u0159i.""}",We'll wrap it up at four.,"""We’ll pack it at four.""",0.735,0.757

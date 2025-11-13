@@ -1,4 +1,0 @@
-id,input,expected,output,similarity,avg_similarity
-1,"Hello, how are you?","Bonjour, comment allez-vous ?","[MOCK OUTPUT for]: Hello, how are you?",0.388,0.321
-2,The meeting starts at noon.,La rĂ©union commence Ă  midi.,[MOCK OUTPUT for]: The meeting starts at noon.,0.16,0.321
-3,I love learning new languages.,J'aime apprendre de nouvelles langues.,[MOCK OUTPUT for]: I love learning new languages.,0.414,0.321
