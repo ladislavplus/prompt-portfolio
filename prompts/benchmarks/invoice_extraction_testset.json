@@ -1,0 +1,35 @@
+{
+    "name": "Invoice Extraction Test Set",
+    "description": "A set of test cases for extracting structured data from invoice emails.",
+    "test_cases": [
+        {
+            "id": "01-Basic-Invoice",
+            "input": {
+                "text": "From: billing@examplecorp.com\nSubject: Your Invoice #INV-12345\n\nDear Valued Customer,\n\nPlease find attached your invoice for the recent purchase.\n\nInvoice Number: INV-12345\nDate: 2025-11-15\nAmount Due: $250.75\nDue Date: 2025-12-15\n\nThank you for your business.\n\nSincerely,\nThe ExampleCorp Team"
+            },
+            "expected_output": "{\"invoice_number\": \"INV-12345\", \"invoice_date\": \"2025-11-15\", \"total_amount\": \"$250.75\", \"due_date\": \"2025-12-15\"}"
+        },
+        {
+            "id": "02-InvoiceCZ",
+            "input": {
+                "text": "**Předmět:** Faktura č. 2025/0115 za dodané zboží – splatnost 14 dní\n\nVážený pane Nováku,\ndovolte mi, abych Vás informoval o vystavení faktury za dodané zboží dle naší objednávky č. OBJ-2025-089.\n\n**Podrobnosti faktury:**\n- **Číslo faktury:** 2025/0115  \n- **Datum vystavení:** 15. 11. 2025  \n- **Datum splatnosti:** 29. 11. 2025  \n- **Dodavatel:** ABC s.r.o., IČO: 12345678, DIČ: CZ12345678, Adresa: Hlavní 123, 110 00 Praha 1  \n- **Odběratel:** Jan Novák, Adresa: Secondary 456, 602 00 Brno  \n- **Popis:** 10 ks produktů XYZ (cena za ks: 1 500 Kč bez DPH)  \n- **Celková částka bez DPH:** 15 000 Kč  \n- **DPH 21 %:** 3 150 Kč  \n- **Celková částka k úhradě:** 18 150 Kč  \n\n**Platební údaje:**  \n- Bankovní spojení: Číslo účtu 1234567890/0100 (Komerční banka)  \n- Variabilní symbol: 20250115  \n- IBAN: CZ1201000000001234567890  \n- SWIFT: KOMBCZPP  \n\nProsíme o úhradu na výše uvedený účet do data splatnosti. V případě prodlení budou účtovány úroky z prodlení dle platných předpisů.\nV případě jakýchkoli dotazů nás neváhejte kontaktovat na e-mailu info@abc.cz nebo telefonu +420 123 456 789.\nS pozdravem,  \nAnna Svobodová  \nÚčetní oddělení  \nABC s.r.o.  \nTel: +420 123 456 789  \nE-mail: info@abc.cz"
+            },
+            "expected_output": "{\"invoice_number\": \"2025/0115\", \"invoice_date\": \"15.11.2025\", \"total_amount\": \"18 150 kč\", \"due_date\": \"29.11.2025\"}"
+        },
+        {
+            "id": "03-InvoiceCZ",
+            "input": {
+                "text": "Předmět: Faktura č. 2024110045 - KancelářProfi s.r.o.\n\nVážení,\n\nv příloze zasíláme daňový doklad za dodané zboží.\n\n---\nFAKTURA č. 2024110045\n---\n\nDODAVATEL:\nKancelářProfi s.r.o.\nNa Příkopě 15\n110 00 Praha 1\nIČ: 23456789\nDIČ: CZ23456789\nEmail: obchod@kancelarprofi.cz\nTel: +420 222 333 444\n\nODBĚRATEL:\nStavební společnost BETA s.r.o.\nStrojnická 220/5\n170 00 Praha 7\nIČ: 98765432\nDIČ: CZ98765432\n\nDatum vystavení: 15.11.2024\nDatum splatnosti: 30.11.2024\nVariabilní symbol: 110045\nForma úhrady: Bankovní převod\n\n---\nPOLOŽKY:\n---\n\n1. Kancelářské židle ERGO 2000\n   Množství: 15 ks\n   Cena: 3 500 Kč/ks\n   Celkem: 52 500 Kč\n\n2. Psací stoly 160x80 cm, buk\n   Množství: 10 ks\n   Cena: 4 200 Kč/ks\n   Celkem: 42 000 Kč\n\n3. LED stolní lampy\n   Množství: 15 ks\n   Cena: 890 Kč/ks\n   Celkem: 13 350 Kč\n\n4. Kancelářské potřeby - balíček\n   Množství: 3 ks\n   Cena: 1 250 Kč/ks\n   Celkem: 3 750 Kč\n\n5. Doprava a montáž\n   Množství: 1 ks\n   Cena: 5 000 Kč\n   Celkem: 5 000 Kč\n\n---\nMezisoučet: 116 600 Kč\nDPH 21%: 24 486 Kč\n---\nCELKEM K ÚHRADĚ: 141 086 Kč\n---\n\nPLATEBNÍ ÚDAJE:\nČíslo účtu: 987654321/2010\nIBAN: CZ12 2010 0000 0098 7654 3210\nVariabilní symbol: 110045\n\nZboží bylo dodáno dne 14.11.2024.\nFaktura je splatná do 15 dnů.\n\nDěkujeme za Vaši objednávku.\n\nS pozdravem,\nKancelářProfi s.r.o."
+            },
+            "expected_output": "{\"invoice_number\": \"2024110045\", \"invoice_date\": \"15.11.2024\", \"total_amount\": \"141 086Kč\", \"due_date\": \"30.11.2024\"}"
+        },
+        {
+            "id": "04-InvoiceCZ",
+            "input": {
+                "text": "Předmět: Vyúčtování za dodané zboží – faktura č. 2025-087\n\nDobrý den,\n\nzasíláme Vám fakturu č. 2025-087, vystavenou dne 5. ledna 2025, týkající se dodaného zboží.\nDatum splatnosti je stanoveno na 19. ledna 2025.\n\nPro rychlý přehled uvádíme soupis položek:\n\nNotebook Pro 15\" – 1 ks – 21 900 Kč\n\nDokovací stanice – 1 ks – 2 490 Kč\n\nTransportní balné – 1 ks – 150 Kč\n\nCelkem k úhradě: 24 540 Kč\n\nNa faktuře v příloze najdete veškeré platební údaje (variabilní symbol, bankovní spojení).\nPokud budete mít jakékoli dotazy nebo budete potřebovat doplnit informace, dejte nám prosím vědět.\n\nDěkujeme za spolupráci a přejeme příjemný den.\nS úctou\n[Vaše firma]"
+
+            },
+            "expected_output": "{\"invoice_number\": \"2025-087\", \"invoice_date\": \"5. ledna 2025\", \"total_amount\": \"24 540 Kč\", \"due_date\": \"19. ledna 2025\"}"
+        }
+    ]
+}
