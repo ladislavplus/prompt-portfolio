@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
+import textwrap
 
 def save_results_csv(df, output_dir, filename):
     """Saves a DataFrame to a CSV file."""
@@ -19,13 +20,18 @@ def plot_benchmark_results(df, prompt_name, test_name, model_alias, timestamp, o
 
     plt.figure(figsize=(8, 5))
     plt.bar(df["id"], df["similarity"], color="skyblue")
-    plt.title(f"Prompt Benchmark: '{prompt_name}' on '{test_name}' using model '{model_alias}'")
+    
+    title = f"Prompt Benchmark: '{prompt_name}' on '{test_name}' using model '{model_alias}'"
+    plt.suptitle(textwrap.fill(title, width=55), fontsize=12)
+    
     plt.xlabel("Test Case ID")
     plt.ylabel("Similarity Score")
     plt.ylim(0, 1)
     plt.xticks(rotation=45, ha="right")
     plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.93])
+    
     plt.savefig(chart_path)
     plt.close()
     print(f"📊 Chart saved to {chart_path}")
@@ -75,7 +81,10 @@ def plot_comparison_results(avg_df, project_name, model_alias, timestamp, output
 
     plt.figure(figsize=(10, 6))
     bars = plt.bar(avg_df["prompt_name"], avg_df["similarity"], color="lightgreen")
-    plt.title(f"Prompt Comparison: '{project_name}' using model '{model_alias}'")
+    
+    title = f"Prompt Comparison: '{project_name}' using model '{model_alias}'"
+    plt.suptitle(textwrap.fill(title, width=60), fontsize=12)
+    
     plt.xlabel("Prompt")
     plt.ylabel("Average Similarity Score")
     plt.ylim(0, 1)
@@ -86,7 +95,8 @@ def plot_comparison_results(avg_df, project_name, model_alias, timestamp, output
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width()/2.0, yval, f'{yval:.3f}', va='bottom', ha='center')
 
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    
     plt.savefig(chart_path)
     plt.close()
     print(f"📊 Comparison chart saved to {chart_path}")
@@ -112,9 +122,14 @@ def plot_run_results(df, model_alias, output_dir="media"):
     plt.figure(figsize=(6,4))
     plt.bar(tasks, scores, color="skyblue")
     plt.ylim(0,5)
-    plt.title(f"Prompt Scores (Model: {model_alias})")
+    
+    title = f"Prompt Scores (Model: {model_alias})"
+    plt.suptitle(textwrap.fill(title, width=40))
+    
     plt.ylabel("Score (1–5)")
-    plt.tight_layout()
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.9])
+    
     plt.savefig(png_path)
     plt.close()
     print(f"📊 Chart saved to {png_path}")
@@ -129,7 +144,10 @@ def plot_multi_model_comparison_results(avg_df, prompt_name, timestamp, output_d
 
     plt.figure(figsize=(10, 6))
     bars = plt.bar(avg_df["model_alias"], avg_df["similarity"], color="coral")
-    plt.title(f"Model Comparison for Prompt: '{prompt_name}'")
+    
+    title = f"Model Comparison for Prompt: '{prompt_name}'"
+    plt.suptitle(textwrap.fill(title, width=60), fontsize=12)
+    
     plt.xlabel("Model Alias")
     plt.ylabel("Average Similarity Score")
     plt.ylim(0, 1)
@@ -140,7 +158,8 @@ def plot_multi_model_comparison_results(avg_df, prompt_name, timestamp, output_d
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width()/2.0, yval, f'{yval:.3f}', va='bottom', ha='center')
 
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    
     plt.savefig(chart_path)
     plt.close()
     print(f"📊 Model comparison chart saved to {chart_path}")
@@ -174,4 +193,3 @@ def write_multi_model_comparison_report(avg_df, prompt_name, timestamp, chart_pa
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report_content)
     print(f"📝 Model comparison report saved to {report_path}")
-

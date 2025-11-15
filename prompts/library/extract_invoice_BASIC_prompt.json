@@ -1,5 +1,5 @@
 {
     "name": "extraction_invoice_BASIC_prompt",
     "description": "A prompt for extracting data about an invoice from an email.",
-    "prompt_text": "You will be given an email that informs the recipient about payment for goods or services. Extract the following information from the email: invoice_number, invoice_date, total_amount, due_date. Return the result as a single valid JSON object with these three fields. The response must contain ONLY the JSON object, with no explanations or extra text. If any field is missing, return its value as null. Example output: {{\"invoice_number\": \"...\", \"invoice_date\": \"...\", \"total_amount\": \"...\", \"due_date\": \"...\"}}. Now extract the data from the following email:\n\n{text}"
+    "prompt_text": "You will be given an email that informs the recipient about payment for goods or services. Extract the following information from the email: invoice_number, invoice_date, total_amount, due_date. Return the result as a RAW single valid JSON object with these fields. The response must contain ONLY the raw JSON object, with no explanations or extra text. If any field is missing, return its value as null. Example output: {{\"invoice_number\": \"...\", \"invoice_date\": \"...\", \"total_amount\": \"...\", \"due_date\": \"...\"}}. Now extract the data from the following email:\n\n{text}"
 }
