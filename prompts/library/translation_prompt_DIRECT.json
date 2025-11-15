@@ -1,0 +1,5 @@
+{
+    "name": "translation_prompt",
+    "description": "A standard prompt for translating text from a source language to a target language.",
+    "prompt_text": "Translation task: Output ONLY the translated text with no explanations, comments, quotes, labels, or extra whitespace. Example: Input: 'Translate from Czech to English: Nechte ty věci na stole.' → Output: 'Leave those things on the table.' Now translate the following from {source_language} to {target_language}:\n{text_to_translate}"
+}

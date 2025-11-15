@@ -5,7 +5,7 @@
 This project, "prompt-portfolio," is a Python-based toolkit for managing, testing, and evaluating language model (LLM) prompts. It provides a systematic, data-driven approach to prompt engineering, allowing developers to benchmark and compare prompts to optimize performance.
 
 The project consists of three main components:
-1.  **`prompt_toolkit` Library:** A core library containing modules for model interaction (`models.py`), prompt evaluation (`evaluation.py`), reporting (`reporting.py`), and utility functions (`utils.py`). It uses `litellm` to interface with various LLM providers.
+1.  **`portfolib` Library:** A core library containing modules for model interaction (`models.py`), prompt evaluation (`evaluation.py`), reporting (`reporting.py`), and utility functions (`utils.py`). It uses `litellm` to interface with various LLM providers.
 2.  **Command-Line Interface (`cli.py`):** A powerful CLI built with `argparse` that serves as the main entry point for running experiments. It supports three primary subcommands:
     *   `run`: Executes a series of prompts from a dataset.
     *   `benchmark`: Evaluates a single prompt's performance against a predefined benchmark test set.
@@ -75,7 +75,7 @@ streamlit run app.py
 *   `prompts/`: Contains all prompt-related JSON files.
     *   `library/`: Stores reusable prompt templates.
     *   `benchmarks/`: Stores test sets with inputs and expected outputs for benchmarking prompts.
-*   `prompt_toolkit/`: The core Python library for the project.
+*   `portfolib/`: The core Python library for the project.
 
 ### Workflow
 

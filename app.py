@@ -7,8 +7,8 @@ import pandas as pd
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-from prompt_toolkit.models import get_model_name, run_prompt as run_api_prompt
-from prompt_toolkit.utils import load_json
+from portfolib.models import get_model_name, run_prompt as run_api_prompt
+from portfolib.utils import load_json
 
 # --- Load environment ---
 load_dotenv()
@@ -47,7 +47,7 @@ def run_prompt(prompt: str, model_alias: str, use_api: bool = False):
     Returns (response_text, mode)
     """
     if use_api:
-        model_name = get_model_name(model_alias)
+        model_name = get_model_name(model_alias, models_config)
         response = run_api_prompt(prompt, model_name)
         return response, "api"
 
@@ -78,7 +78,7 @@ if st.button("🚀 Run Prompt"):
         st.text_area("🧠 Model Output", value=output, height=200)
 
         # Save run to reports
-        reports_dir = "output/summaries"
+        reports_dir = "output/raw"
         os.makedirs(reports_dir, exist_ok=True)
         out_path = os.path.join(reports_dir, "prompt_lab_runs.csv")
 
@@ -104,12 +104,12 @@ st.divider()
 st.subheader("📜 Run History")
 
 @st.cache_data
-def load_history(path="output/summaries/prompt_lab_runs.csv"):
+def load_history(path="output/raw/prompt_lab_runs.csv"):
     if os.path.exists(path):
         return pd.read_csv(path)
     return pd.DataFrame(columns=["timestamp", "model", "task", "prompt", "output", "mode", "elapsed_s"])
 
-history_path = "output/summaries/prompt_lab_runs.csv"
+history_path = "output/raw/prompt_lab_runs.csv"
 df = load_history(history_path)
 
 col1, col2 = st.columns([1, 4])
