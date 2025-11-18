@@ -1,0 +1,63 @@
+
+{
+  "name": "Loan Application Test Set",
+  "description": "A set of test cases for evaluating loan application risk assessment prompts.",
+  "test_cases": [
+    {
+      "id": "case_1",
+      "input": {
+        "credit_score": 750,
+        "income": 120000,
+        "monthly_debt": 2000,
+        "loan_amount": 20000,
+        "loan_purpose": "Home Improvement"
+      },
+      "expected_output": {
+        "risk_assessment": "Low",
+        "justification": "The applicant has a high credit score of 750 and a low debt-to-income ratio of 20%. The loan purpose is for a stable investment. The risk is Low."
+      }
+    },
+    {
+      "id": "case_2",
+      "input": {
+        "credit_score": 620,
+        "income": 50000,
+        "monthly_debt": 2100,
+        "loan_amount": 15000,
+        "loan_purpose": "Other"
+      },
+      "expected_output": {
+        "risk_assessment": "High",
+        "justification": "The applicant's debt-to-income ratio is high at 50.4% and their credit score of 620 is in the subprime range. The loan purpose is not specified, adding to the risk. The risk is High."
+      }
+    },
+    {
+      "id": "case_3",
+      "input": {
+        "credit_score": 690,
+        "income": 80000,
+        "monthly_debt": 2500,
+        "loan_amount": 25000,
+        "loan_purpose": "Business"
+      },
+      "expected_output": {
+        "risk_assessment": "Medium",
+        "justification": "The applicant has a good credit score of 690. However, the debt-to-income ratio is 37.5%, which is approaching the high-risk threshold. While the purpose is for a business, the DTI ratio suggests Medium risk."
+      }
+    },
+    {
+      "id": "case_4",
+      "input": {
+        "credit_score": 710,
+        "income": 95000,
+        "monthly_debt": 3500,
+        "loan_amount": 50000,
+        "loan_purpose": "Debt Consolidation"
+      },
+      "expected_output": {
+        "risk_assessment": "Medium",
+        "justification": "The applicant has a good credit score of 710. However, their debt-to-income ratio is high at 44.2%. The large loan amount for debt consolidation combined with the high DTI places them in the Medium risk category."
+      }
+    }
+  ]
+}

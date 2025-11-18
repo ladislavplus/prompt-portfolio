@@ -18,17 +18,23 @@ def get_model_name(model_alias, models_config=None):
     
     return models_config["models"][model_alias]["litellm_string"]
 
-def run_prompt(prompt, model_name, variables=None):
+def run_prompt(user_prompt, model_name, system_prompt=None, variables=None):
     """
     Runs a prompt using the specified model via litellm, with optional variable substitution.
+    Supports an optional system prompt.
     """
     if variables:
-        prompt = prompt.format(**variables)
+        user_prompt = user_prompt.format(**variables)
+
+    messages = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    messages.append({"role": "user", "content": user_prompt})
     
     try:
         r = litellm.completion(
             model=model_name,
-            messages=[{"role": "user", "content": prompt}]
+            messages=messages
         )
         return r.choices[0].message.content.strip()
     except Exception as e:

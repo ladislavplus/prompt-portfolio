@@ -1,0 +1,9 @@
+
+{
+  "name": "Loan Risk Assessment Comparison",
+  "description": "Comparing a standard vs. a Chain of Thought prompt for assessing loan application risk.",
+  "prompts": [
+    "prompts/library/loan_risk_assessment_BASIC_prompt.json",
+    "prompts/library/loan_risk_assessment_COT_prompt.json"
+  ]
+}

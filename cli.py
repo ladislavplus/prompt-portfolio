@@ -40,9 +40,26 @@ def benchmark_command(args):
     prompt_data = load_json(args.prompt)
     test_data = load_json(args.benchmark)
 
+    # Handle both new and legacy prompt formats
+    if "user_prompt_template" in prompt_data:
+        user_prompt = prompt_data["user_prompt_template"]
+        system_prompt = prompt_data.get("system_prompt") # Handles optional system_prompt
+    else:
+        # Legacy format
+        user_prompt = prompt_data["prompt_text"]
+        system_prompt = None
+
     results = []
     for case in test_data["test_cases"]:
-        output = run_prompt(prompt_data["prompt_text"], model_name, case["input"])
+        # Handle different variable strategies based on prompt metadata
+        if prompt_data.get("variable_handling") == "json_blob":
+            formatted_input_data = json.dumps(case["input"], indent=2)
+            variables = {"application_data": formatted_input_data}
+        else:
+            # Default/legacy behavior
+            variables = case["input"]
+
+        output = run_prompt(user_prompt, model_name, system_prompt=system_prompt, variables=variables)
         score = score_similarity(case["expected_output"], output)
         results.append({
             "id": case["id"],
@@ -143,6 +160,14 @@ def compare_models_command(args):
     test_data = load_json(args.benchmark)
     models_config = load_json("config/models_config.json")
 
+    # Handle both new and legacy prompt formats
+    if "user_prompt_template" in prompt_data:
+        user_prompt = prompt_data["user_prompt_template"]
+        system_prompt = prompt_data.get("system_prompt")
+    else:
+        user_prompt = prompt_data["prompt_text"]
+        system_prompt = None
+
     all_results = []
     for model_alias in args.model_aliases:
         print(f"Benchmarking with model: '{model_alias}'")
@@ -150,7 +175,15 @@ def compare_models_command(args):
         
         results = []
         for case in test_data["test_cases"]:
-            output = run_prompt(prompt_data["prompt_text"], model_name, case["input"])
+            # Handle different variable strategies based on prompt metadata
+            if prompt_data.get("variable_handling") == "json_blob":
+                formatted_input_data = json.dumps(case["input"], indent=2)
+                variables = {"application_data": formatted_input_data}
+            else:
+                # Default/legacy behavior
+                variables = case["input"]
+
+            output = run_prompt(user_prompt, model_name, system_prompt=system_prompt, variables=variables)
             score = score_similarity(case["expected_output"], output)
             results.append({
                 "id": case["id"],
